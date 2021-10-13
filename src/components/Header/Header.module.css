@@ -1,0 +1,12 @@
+.header {
+  grid-area: header;
+  background-color:aqua;
+}
+
+.header img {
+  width: 200px;
+}
+
+.loginBlock a {
+  color: white;
+}

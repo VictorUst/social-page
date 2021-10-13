@@ -1,0 +1,13 @@
+.app_wrapper {
+  width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-areas:
+    'header header'
+    'nav main';
+}
+
+.content {
+  grid-area: main;
+  background-color:chocolate;
+}
