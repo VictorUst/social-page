@@ -6,7 +6,7 @@ import { login } from "../../redux/authReducer";
 import { Redirect } from "react-router";
 
 
-const Login = ({ isAuth, login }) => {
+const Login = ({ isAuth, login, captchaUrl }) => {
   const validationShema = yup.object().shape({
     email: yup.string().email('Введите верный email').required('Обязательно'),
     password: yup.string().typeError('Должно быть строкой').required('Обязательно')
@@ -23,16 +23,18 @@ const Login = ({ isAuth, login }) => {
         initialValues={{
           email: '',
           password: '',
-          rememberMe: false
+          rememberMe: false,
+          captcha: null
         }}
         onSubmit={(values, {setSubmitting, setFieldError, setStatus}) => {
-          login(values.email, values.password, values.rememberMe, setSubmitting, setFieldError, setStatus);
+          login(values.email, values.password, values.rememberMe, values.captcha,  setSubmitting, setFieldError, setStatus);
           setSubmitting(false);
         }}
         validateOnBlur
         validationSchema={validationShema}
       >
-        {({values, errors, touched, handleChange, handleBlur, isValid, handleSubmit, dirty, status }) => (
+
+        {({values, errors, touched, handleChange, handleBlur, isValid, handleSubmit, dirty, status, captchaUrl }) => (
           <form onSubmit={handleSubmit}>
             <p>
               <label htmlFor={'email'}>email</label><br/>
@@ -53,7 +55,14 @@ const Login = ({ isAuth, login }) => {
                 onChange={handleChange}
                 value={values.rememberMe}
                 /><label htmlFor={'rememberMe'}> remember me </label>
-              </p>
+            </p>
+
+            <p>
+              <label htmlFor={'captcha'}>Symbols for image</label><br/>
+              <input type={`text`} name={`captcha`} onChange={handleChange} onBlur={handleBlur} value={values.captcha}/>
+              <img src={captchaUrl} alt='captcha' />
+            </p>
+
               <p>
                 <div>{status}</div>
               </p>
@@ -69,6 +78,7 @@ const Login = ({ isAuth, login }) => {
 }
 
 const mapStateToProps = (state) => ({
+  captchaUrl: state.auth.captchaUrl,
   isAuth: state.auth.isAuth
 })
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, Switch, Redirect } from 'react-router-dom';
 import classes from './App.module.css';
 import Navbar from './components/Navbar/Navbar';
 import News from './components/News/News';
@@ -32,13 +32,17 @@ class App extends React.Component {
         <Navbar /* state={props.state.navbarPage} */ />
         <div className = {classes.content}>
           <React.Suspense fallback={<div>Loading...</div>}>
-            <Route path='/profile/:userId?' render={() => <ProfileContainer /* store={props.store} */ />} />
-            <Route path='/dialogs' render={() => <DialogsContainer /> } />
-            <Route path='/news' render={() => <News />} />
-            <Route path='/music' render={() => <Music />} />
-            <Route path='/users' render={() => <UsersContainer /> } />
-            <Route path='/login' render={() => <Login /> } />
-            <Route path='/settings' render={() => <Settings />} />
+            <Switch>
+              <Route path='/' exact><Redirect to='/profile'/></Route>
+              <Route path='/profile/:userId?' render={() => <ProfileContainer /* store={props.store} */ />} />
+              <Route path='/dialogs' render={() => <DialogsContainer /> } />
+              <Route path='/news' render={() => <News />} />
+              <Route path='/music' render={() => <Music />} />
+              <Route path='/users' render={() => <UsersContainer /> } />
+              <Route path='/login' render={() => <Login /> } />
+              <Route path='/settings' render={() => <Settings />} />
+              <Route path='*' render={() => <div>404 NOT FOUND</div>} />
+            </Switch>
           </React.Suspense>
         </div>
       </div>
